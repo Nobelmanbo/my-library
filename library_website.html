@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Библиотека Олега</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 2rem; }
+    h1 { text-align: center; }
+    .filters { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; }
+    .card { background: white; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem; display: flex; flex-direction: column; }
+    .cover { width: 100%; height: 300px; object-fit: cover; border-radius: 0.5rem; margin-bottom: 1rem; }
+    .title { font-size: 1.2rem; font-weight: bold; margin: 0.5rem 0; }
+    .author, .genre, .category, .description { font-size: 0.9rem; color: #555; margin: 0.2rem 0; }
+    #searchInput { padding: 0.5rem; font-size: 1rem; width: 300px; }
+  </style>
+</head>
+<body>
+  <h1>Библиотека Олега</h1>
+
+  <div class="filters">
+    <label>Фильтр по жанру:
+      <select id="genreFilter" onchange="filterCards()">
+        <option value="all">Все</option>
+        <option value="Фантастика">Фантастика</option>
+        <option value="Фэнтези">Фэнтези</option>
+        <option value="Философия">Философия</option>
+        <option value="История">История</option>
+      </select>
+    </label>
+    <input type="text" id="searchInput" placeholder="Поиск по названию или автору" oninput="filterCards()" />
+  </div>
+
+  <div class="card-grid" id="library">
+    <div class="card" data-genre="Фэнтези" data-title="Элрик из Мельнибонэ" data-author="Майкл Муркок">
+      <img class="cover" src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Elric_of_Melnibone.jpg/220px-Elric_of_Melnibone.jpg" alt="Элрик из Мельнибонэ" />
+      <div class="title">Элрик из Мельнибонэ</div>
+      <div class="author">Майкл Муркок</div>
+      <div class="genre">Фэнтези</div>
+      <div class="category">Художественная литература</div>
+      <div class="description">Первый роман о проклятом антимире, эльфоподобном императоре и рунах рока.</div>
+    </div>
+
+    <div class="card" data-genre="Философия" data-title="Вита активная" data-author="Ханна Арендт">
+      <img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Hannah_Arendt_1975.jpg" alt="Вита активная" />
+      <div class="title">Вита активная</div>
+      <div class="author">Ханна Арендт</div>
+      <div class="genre">Философия</div>
+      <div class="category">Философия и теория</div>
+      <div class="description">Классический труд по политической философии, различающий труд, работу и действие.</div>
+    </div>
+
+    <div class="card" data-genre="История" data-title="Апология истории" data-author="Марк Блок">
+      <img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Marc_Bloch.jpg" alt="Апология истории" />
+      <div class="title">Апология истории</div>
+      <div class="author">Марк Блок</div>
+      <div class="genre">История</div>
+      <div class="category">История и методология</div>
+      <div class="description">Манифест историка и защитника историографии в условиях Второй мировой.</div>
+    </div>
+
+    <div class="card" data-genre="Фантастика" data-title="Пикник на обочине" data-author="Аркадий и Борис Стругацкие">
+      <img class="cover" src="https://upload.wikimedia.org/wikipedia/en/3/3f/Roadside_Picnic.jpg" alt="Пикник на обочине" />
+      <div class="title">Пикник на обочине</div>
+      <div class="author">Аркадий и Борис Стругацкие</div>
+      <div class="genre">Фантастика</div>
+      <div class="category">Художественная литература</div>
+      <div class="description">Постапокалиптический рассказ о Зоне и загадках инопланетного вмешательства.</div>
+    </div>
+  </div>
+
+  <script>
+    function filterCards() {
+      const genre = document.getElementById("genreFilter").value.toLowerCase();
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const cardGenre = card.dataset.genre.toLowerCase();
+        const cardTitle = card.dataset.title.toLowerCase();
+        const cardAuthor = card.dataset.author.toLowerCase();
+
+        const matchGenre = genre === "all" || cardGenre === genre;
+        const matchSearch = cardTitle.includes(search) || cardAuthor.includes(search);
+
+        card.style.display = (matchGenre && matchSearch) ? "block" : "none";
+      });
+    }
+  </script>
+</body>
+</html>
